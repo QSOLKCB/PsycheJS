@@ -27,6 +27,29 @@ word-trigram language model generates the rhetoric locally. It is **not** a larg
 language model, a neural network, a plagiarism detector or a repository scanner.
 The fictional cases and training corpus contain no real individuals or disputes.
 
+## Deploy to GitHub Pages
+
+After `.github/workflows/pages.yml` is merged into `main`:
+
+1. In **Settings → Pages**, set **Source** to **GitHub Actions** (already configured
+   for this repository when the workflow was added).
+2. Open **Actions → Deploy to GitHub Pages → Run workflow**.
+3. Select **main** and click **Run workflow**. Approve the `github-pages`
+   environment if your repository settings require it.
+4. The successful deployment shows its live URL in the workflow summary and environment.
+
+The default project URL is **https://qsolkcb.github.io/PsycheJS/**. It becomes
+available after the first successful deployment. Repeat the manual run to publish
+later changes; pushes and merges do not deploy automatically. Selecting a branch
+other than `main` produces an explanatory error.
+
+The workflow validates generated assets and JavaScript/6502 tests, then uploads
+only the HTML, CSS, four browser scripts, licence and `.nojekyll`. Relative asset
+paths support the `/PsycheJS/` project prefix. All actions are GitHub-owned and
+pinned to commit SHAs. It uses `GITHUB_TOKEN` and OIDC; no personal token or extra
+secret is needed. Full native and browser verification remains in the separate
+**Verify the absurdity** workflow.
+
 ## The unnecessarily polyglot bit
 
 | Implementation | What actually runs | How it is checked |

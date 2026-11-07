@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+# Deliberately manual: merging or pushing does not publish the site.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Require the main branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo '::error::Select main in the Run workflow branch selector.'
+          exit 1
+      - name: Check out the selected commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Validate generated assets and JavaScript kernels
+        run: |
+          python3 tools/build_assets.py --check
+          node tests/engine.cjs
+      - name: Stage the static site
+        run: |
+          mkdir -p "$RUNNER_TEMP/psyche-pages/web"
+          cp index.html style.css LICENSE "$RUNNER_TEMP/psyche-pages/"
+          cp web/model.js web/kernel-rom.js web/engine.js web/app.js "$RUNNER_TEMP/psyche-pages/web/"
+          touch "$RUNNER_TEMP/psyche-pages/.nojekyll"
+      - name: Configure Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - name: Upload the static site
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: ${{ runner.temp }}/psyche-pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the uploaded site
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+      - name: Show the live URL
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: printf 'Site deployed to %s\n' "$PAGE_URL" >> "$GITHUB_STEP_SUMMARY"
