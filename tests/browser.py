@@ -41,14 +41,16 @@ with sync_playwright() as p:
     assert receipt["classification"] == "FICTIONAL SATIRE — NOT EVIDENCE"
     assert receipt["independentEvidenceItems"] == 0 and receipt["mode"] == "reality-check"
     page.get_by_label("Demonstration case").select_option("nothing")
-    page.locator("#echoes").fill("8")
+    page.locator("#echoes").focus()
+    page.keyboard.press("End")
     assert page.locator("#score").inner_text() == "56"
     page.get_by_role("button", name="Manufacture certainty").click()
     assert "No overlap?" in page.locator("#verdict").inner_text()
     page.get_by_role("button", name="Semicolons", exact=True).click()
     assert page.locator("#score").inner_text() == "99"
     assert page.get_by_role("button", name="Semicolons", exact=True).get_attribute("aria-pressed") == "true"
-    page.locator("#echoes").fill("0")
+    page.locator("#echoes").focus()
+    page.keyboard.press("Home")
     assert page.locator("#score").inner_text() == "46"
     page.get_by_role("button", name="Semicolons", exact=True).focus()
     page.keyboard.press("Space")
