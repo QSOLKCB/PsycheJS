@@ -1,0 +1,46 @@
+name: Verify the absurdity
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  polyglot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install native compilers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gnat gfortran gnucobol cc65
+      - name: Verify generated assets and all kernels
+        run: python3 tools/verify.py --require-all
+      - name: Record toolchain versions
+        run: |
+          gcc --version
+          gnatmake --version
+          gfortran --version
+          cobc --version
+          ca65 --version
+          node --version
+          python3 --version
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: '0.13.5'
+      - name: Install test browser
+        run: uv run --no-project --with playwright==1.62.0 playwright install --with-deps chromium
+      - name: Exercise offline application
+        run: uv run --no-project --with playwright==1.62.0 python tests/browser.py
+      - name: Preserve browser captures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: psychejs-browser-captures
+          path: test-results/
+          if-no-files-found: ignore
