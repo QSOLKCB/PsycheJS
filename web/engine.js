@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: Apache-2.0 */
 (function (root) {
   'use strict';
-  const VERSION = '0.1.0';
+  const VERSION = '0.2.0';
   function input(n) {
     if (!Number.isInteger(n) || n < 0 || n > 8) throw new RangeError('Inputs must be integers 0–8.');
     return n;

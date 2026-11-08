@@ -14,9 +14,9 @@ evidence for the premise.
 Open **`index.html`** directly in a modern browser. No install, server, npm,
 framework, API key, model download, telemetry or network call is required.
 Alternatively serve this directory with `uv run --no-project python -m http.server 8000`.
-The source link in the footer opens GitHub only when you choose it.
+The source and historical-record links open external pages only when you choose them.
 
-1. Choose one of four fictional project pairs.
+1. Choose one of five fictional project pairs, including the 16.16 fixed-point fiasco.
 2. Select up to eight ordinary features and up to eight AI agreement rounds.
 3. Manufacture certainty. The canvas traces the leap; a 6502 kernel executes it.
 4. Apply the reality check. The evidence count remains zero.
@@ -122,7 +122,7 @@ interpreter and `RUN`, then enter e.g. `1,3`. Actual hardware remains untested.
 
 ## Inspect the model
 
-`model/corpus.txt` is an original 40-sentence fictional corpus. The builder counts
+`model/corpus.txt` is an original 71-sentence fictional corpus. The builder counts
 word-trigram transitions, preserving case and punctuation, and emits
 `web/model.js`. There is no gradient training. Seeded weighted sampling emits at
 most 60 tokens; the same input counts replay the same sentence in this implementation.
@@ -132,6 +132,25 @@ understand software, determine attribution, or corroborate its own prompts.
 The receipt identifies the corpus using SHA-256. A hash matches bytes; it does
 not certify the truth of generated text. No timestamp or digital signature is
 invented. Generated assets are checked for exact agreement with their source.
+
+## Experiment 002 — I invented Math. Also 16.16.
+
+The featured case is a fictional visit to the **Department of Retroactive
+Originality**. A fictional inventor declares that 16.16 fixed-point arithmetic
+is an unprecedented discovery, serves prior decades a cease-and-desist, and
+invoices every calculator. The local trigram corpus gains 31 original jokes.
+
+The historical reference is [FP-HIST-001](https://doi.org/10.5281/zenodo.24049474),
+which documents earlier published use of 16.16 fixed-point arithmetic in DOOM
+and later VANILLAJS implementation and verification evidence. It provides
+context for this satire, not any finding that somebody copied somebody else's
+source code. Technique history, implementation authorship, and allegations
+of copying are distinct questions.
+
+The counter remains at **zero independent evidence items**. The scoring
+contract, all seven reference implementations, offline `file://` operation,
+and opt-in-only external links are preserved. The toy model's regenerated
+asset and corpus SHA-256 travel with the reproducible JSON receipt.
 
 ## Scope and licence
 

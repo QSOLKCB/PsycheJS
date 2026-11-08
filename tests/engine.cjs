@@ -3,6 +3,8 @@ const assert = require('node:assert/strict');
 require('../web/model.js');
 require('../web/kernel-rom.js');
 const {score,run6502,generate,receipt} = require('../web/engine.js');
+assert.equal(globalThis.PsycheModel.sentences,71);
+assert.match(globalThis.PsycheModel.corpusSha256,/^[0-9a-f]{64}$/);
 for (let s=0;s<=8;s++) for (let e=0;e<=8;e++) {
   const reference = Math.min(99,11*s+7*e+(s?35:0));
   assert.equal(score(s,e),reference);
