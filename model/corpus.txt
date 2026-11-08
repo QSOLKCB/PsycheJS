@@ -68,3 +68,4 @@ Being loud in fixed point is still not the same as being right in floating point
 One radix, two implementations, thirty seven press releases and zero independent witnesses.
 The committee voted unanimously to redefine prior art as future plagiarism.
 The binary point pleads not guilty and requests a narrower specification.
+I invented Math, declared the fictional inventor, before sending every calculator a royalty invoice.
