@@ -2,8 +2,9 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const features = ['Semicolons', 'Integers', 'A render loop', 'A canvas', 'Functions', 'A README', 'Pixels', 'A keyboard'];
+  const features = ['Semicolons', 'Integers', 'A render loop', 'A canvas', 'Functions', 'A README', 'Pixels', '16.16 fixed-point arithmetic'];
   const cases = {
+    fixed1616: { a: 'Radix-65536 Breakthrough Labs', b: 'The Ancient Integer Guild', selected: [7] },
     semicolon: { a: 'Semicolon Prime', b: 'Punctuation Engine', selected: [0] },
     integer: { a: 'Integer Cathedral', b: 'Whole Number Works', selected: [1, 4] },
     canvas: { a: 'Canvas Kingdom', b: 'Pixel Picnic', selected: [2, 3, 6] },
@@ -28,12 +29,27 @@
       $('export').disabled = false;
       $('score').textContent = current.theatricalScore; $('meter-fill').style.width = current.theatricalScore / 99 * 100 + '%';
       $('echo-count').textContent = current.agreementRounds;
-      $('verdict').textContent = reality ? 'Similarity is a lead. Not a verdict.' : selected.size ? 'Your semicolon. Their entire empire.' : 'No overlap? Even more suspicious.';
-      $('claim').textContent = reality ? 'The selected features are common building blocks. This demonstration contains no evidence of copying, access, priority or a licence violation.' :
-        selected.size ? `${item.a} and ${item.b} share ${selected.size} feature${selected.size === 1 ? '' : 's'}. The Large Leap Machine has therefore declared a fictional intellectual-property emergency.` :
-          'The control case has no selected overlap. The machine treats this inconvenience as a reason to ask itself again.';
+      const fixed1616 = $('case').value === 'fixed1616' && selected.has(7);
+      $('verdict').textContent = reality
+        ? (fixed1616 ? 'Prior art exists. Alarm cancelled.' : 'Similarity is a lead. Not a verdict.')
+        : fixed1616 ? 'I invented Math. And 16.16.'
+          : selected.size ? 'Your semicolon. Their entire empire.' : 'No overlap? Even more suspicious.';
+      $('claim').textContent = reality
+        ? (fixed1616
+          ? '16.16 fixed-point arithmetic predates this fictional dispute. Earlier use documents the technique; it does not by itself prove copying, authorship or the provenance of any particular implementation.'
+          : 'The selected features are common building blocks. This demonstration contains no evidence of copying, access, priority or a licence violation.')
+        : fixed1616
+          ? 'The Department of Retroactive Originality announces that 16 bits left of the binary point and 16 bits right are a revolutionary 2026 discovery. I invented Math, says the fictional inventor. Every calculator has been invoiced, and all prior decades have received cease-and-desist notices.'
+          : selected.size ? `${item.a} and ${item.b} share ${selected.size} feature${selected.size === 1 ? '' : 's'}. The Large Leap Machine has therefore declared a fictional intellectual-property emergency.`
+            : 'The control case has no selected overlap. The machine treats this inconvenience as a reason to ask itself again.';
       $('oracle').textContent = current.languageModel.text;
-      $('audit').textContent = reality ? 'AUDIT: the model generated rhetoric. It did not inspect either project. More agreement cannot supply the missing evidence.' : 'FILING NOTE: confidence manufactured locally. Evidence department still vacant.';
+      $('audit').textContent = reality
+        ? (fixed1616
+          ? 'AUDIT: historical precedent is not proof of copying or ownership. This is fictional parody, not a finding about any person or project.'
+          : 'AUDIT: the model generated rhetoric. It did not inspect either project. More agreement cannot supply the missing evidence.')
+        : fixed1616
+          ? 'FILING NOTE: backdate the novelty certificate to before the invention of numbers. Independent evidence: still zero.'
+          : 'FILING NOTE: confidence manufactured locally. Evidence department still vacant.';
       $('reality').setAttribute('aria-pressed', String(reality));
       $('reality').textContent = reality ? 'Return to the nonsense' : 'Apply reality check';
       $('receipt-number').textContent = 'MEMO / ' + String(1 + selected.size * 9 + current.agreementRounds).padStart(3, '0');

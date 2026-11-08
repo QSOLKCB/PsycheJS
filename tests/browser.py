@@ -18,6 +18,10 @@ with sync_playwright() as p:
     page.goto((ROOT / "index.html").as_uri())
     page.wait_for_function("window.Psyche && document.getElementById('kernel-status').textContent.includes('PASS')")
     assert page.locator("#score").inner_text() == "67"
+    assert page.locator("#case").input_value() == "fixed1616"
+    assert "I invented Math" in page.locator("#verdict").inner_text()
+    assert "Every calculator has been invoiced" in page.locator("#claim").inner_text()
+    assert page.locator('a[href="https://doi.org/10.5281/zenodo.24049474"]').count() == 1
     assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
     checks = page.evaluate("""() => {
       let n=0;
@@ -34,6 +38,8 @@ with sync_playwright() as p:
     page.get_by_role("button", name="Apply reality check").click()
     assert page.get_by_role("button", name="Return to the nonsense").get_attribute("aria-pressed") == "true"
     assert page.locator("#oracle").inner_text() == before
+    assert "Earlier use" in page.locator("#claim").inner_text()
+    assert "not proof of copying" in page.locator("#audit").inner_text()
     assert page.locator("#score").inner_text() == "67"
     with page.expect_download() as event:
         page.get_by_role("button", name="Download the receipt").click()
